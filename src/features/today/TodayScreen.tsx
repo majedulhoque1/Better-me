@@ -5,12 +5,14 @@ import CheckinSheet from './CheckinSheet'
 import { useToday } from './useToday'
 import { useTasks } from '../tasks/useTasks'
 import { useMoney } from '../money/useMoney'
+import { useProspects } from '../prospects/useProspects'
 import type { Habit } from '../../db/types'
 
 export default function TodayScreen() {
   const { habits, todaysCheckins, doneHabitIds, profile, level, stage, mood, ostadLine, checkin } = useToday()
   const { dueToday, overdue, toggleDone } = useTasks()
   const { alerts: moneyAlerts } = useMoney()
+  const { overdueProspects } = useProspects()
   const [openHabit, setOpenHabit] = useState<Habit | null>(null)
   const [flash, setFlash] = useState<string | null>(null)
 
@@ -66,6 +68,16 @@ export default function TodayScreen() {
           {moneyAlerts.map((m) => (
             <div key={m.id} className="rounded-xl border border-glow bg-glow/10 px-4 py-3 text-sm">
               <span className="font-semibold">{m.name}</span> — ৳{m.amount} due {m.next_due}. Handle it in Money.
+            </div>
+          ))}
+        </div>
+      )}
+
+      {overdueProspects.length > 0 && (
+        <div className="flex flex-col gap-2">
+          {overdueProspects.map((p) => (
+            <div key={p.id} className="rounded-xl border border-danger/40 bg-danger/5 px-4 py-3 text-sm">
+              Follow up with <span className="font-semibold">{p.name}</span> — you said {p.next_touch}.
             </div>
           ))}
         </div>
