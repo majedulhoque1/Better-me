@@ -3,10 +3,12 @@ import Ostad from '../../character/Ostad'
 import StatBar from '../../components/StatBar'
 import CheckinSheet from './CheckinSheet'
 import { useToday } from './useToday'
+import { useTasks } from '../tasks/useTasks'
 import type { Habit } from '../../db/types'
 
 export default function TodayScreen() {
   const { habits, todaysCheckins, doneHabitIds, profile, level, stage, mood, ostadLine, checkin } = useToday()
+  const { dueToday, overdue, toggleDone } = useTasks()
   const [openHabit, setOpenHabit] = useState<Habit | null>(null)
   const [flash, setFlash] = useState<string | null>(null)
 
@@ -56,6 +58,32 @@ export default function TodayScreen() {
           )
         })}
       </div>
+
+      {(overdue.length > 0 || dueToday.length > 0) && (
+        <div className="flex flex-col gap-2">
+          <h2 className="text-sm font-semibold text-ink-dim">Due today</h2>
+          {overdue.map((t) => (
+            <button
+              key={t.local_id}
+              onClick={() => toggleDone(t)}
+              className="flex items-center gap-3 rounded-xl border border-danger/40 bg-night-raise px-4 py-3 text-left"
+            >
+              <span className="h-5 w-5 shrink-0 rounded-full border-2 border-danger" />
+              <span>{t.title}</span>
+            </button>
+          ))}
+          {dueToday.map((t) => (
+            <button
+              key={t.local_id}
+              onClick={() => toggleDone(t)}
+              className="flex items-center gap-3 rounded-xl border border-night-edge bg-night-raise px-4 py-3 text-left"
+            >
+              <span className="h-5 w-5 shrink-0 rounded-full border-2 border-night-edge" />
+              <span>{t.title}</span>
+            </button>
+          ))}
+        </div>
+      )}
 
       {openHabit && (
         <CheckinSheet
