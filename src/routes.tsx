@@ -6,6 +6,7 @@ import MoneyScreen from './features/money/MoneyScreen'
 import ProspectsScreen from './features/prospects/ProspectsScreen'
 import ReviewScreen from './features/review/ReviewScreen'
 import SettingsScreen from './features/settings/SettingsScreen'
+import OstadGallery from './character/OstadGallery'
 
 export default function Shell() {
   return (
@@ -18,6 +19,7 @@ export default function Shell() {
           <Route path="/prospects" element={<ProspectsScreen />} />
           <Route path="/review" element={<ReviewScreen />} />
           <Route path="/settings" element={<SettingsScreen />} />
+          {import.meta.env.DEV && <Route path="/ostad-gallery" element={<OstadGallery />} />}
         </Routes>
       </main>
       <BottomNav />

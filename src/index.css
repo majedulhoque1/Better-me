@@ -24,3 +24,8 @@ body {
   min-height: 100dvh;
   overscroll-behavior-y: none;
 }
+
+@keyframes ostad-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.015); }
+}

@@ -5,6 +5,11 @@ import Shell from './routes'
 export default function App() {
   const { session, loading } = useSession()
 
+  // Dev-only visual QA route; skips auth so /ostad-gallery loads without a session.
+  if (import.meta.env.DEV && window.location.pathname === '/ostad-gallery') {
+    return <Shell />
+  }
+
   if (loading) {
     return (
       <div className="flex min-h-dvh items-center justify-center">
