@@ -9,7 +9,11 @@ export default defineConfig({
     react(),
     tailwindcss(),
     VitePWA({
+      strategies: 'injectManifest',
+      srcDir: 'src',
+      filename: 'sw.ts',
       registerType: 'autoUpdate',
+      injectManifest: { injectionPoint: 'self.__WB_MANIFEST' },
       manifest: {
         name: 'Better Me',
         short_name: 'BetterMe',
@@ -23,7 +27,6 @@ export default defineConfig({
           { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
         ],
       },
-      workbox: { navigateFallback: '/index.html' },
     }),
   ],
   test: { environment: 'node' },
