@@ -4,11 +4,13 @@ import StatBar from '../../components/StatBar'
 import CheckinSheet from './CheckinSheet'
 import { useToday } from './useToday'
 import { useTasks } from '../tasks/useTasks'
+import { useMoney } from '../money/useMoney'
 import type { Habit } from '../../db/types'
 
 export default function TodayScreen() {
   const { habits, todaysCheckins, doneHabitIds, profile, level, stage, mood, ostadLine, checkin } = useToday()
   const { dueToday, overdue, toggleDone } = useTasks()
+  const { alerts: moneyAlerts } = useMoney()
   const [openHabit, setOpenHabit] = useState<Habit | null>(null)
   const [flash, setFlash] = useState<string | null>(null)
 
@@ -58,6 +60,16 @@ export default function TodayScreen() {
           )
         })}
       </div>
+
+      {moneyAlerts.length > 0 && (
+        <div className="flex flex-col gap-2">
+          {moneyAlerts.map((m) => (
+            <div key={m.id} className="rounded-xl border border-glow bg-glow/10 px-4 py-3 text-sm">
+              <span className="font-semibold">{m.name}</span> — ৳{m.amount} due {m.next_due}. Handle it in Money.
+            </div>
+          ))}
+        </div>
+      )}
 
       {(overdue.length > 0 || dueToday.length > 0) && (
         <div className="flex flex-col gap-2">
