@@ -1,4 +1,5 @@
 import { supabase } from './supabase'
+import { VAPID_PUBLIC_KEY } from './config'
 
 function urlBase64ToUint8Array(base64: string): Uint8Array {
   const padding = '='.repeat((4 - (base64.length % 4)) % 4)
@@ -20,7 +21,7 @@ export async function enablePush(): Promise<boolean> {
   const registration = await navigator.serviceWorker.ready
   const subscription = await registration.pushManager.subscribe({
     userVisibleOnly: true,
-    applicationServerKey: urlBase64ToUint8Array(import.meta.env.VITE_VAPID_PUBLIC_KEY ?? '') as BufferSource,
+    applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY) as BufferSource,
   })
 
   const { data } = await supabase.auth.getSession()
