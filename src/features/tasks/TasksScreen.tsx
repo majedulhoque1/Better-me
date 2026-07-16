@@ -59,6 +59,10 @@ export default function TasksScreen() {
         </button>
       </form>
 
+      {overdue.length === 0 && dueToday.length === 0 && later.length === 0 && done.length === 0 && (
+        <p className="text-center text-sm text-ink-dim">Nothing here yet. Add whatever's stuck in your head.</p>
+      )}
+
       {overdue.length > 0 && (
         <section className="flex flex-col gap-2">
           <h2 className="text-sm font-semibold text-danger">Overdue</h2>

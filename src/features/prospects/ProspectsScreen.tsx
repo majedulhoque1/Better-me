@@ -142,7 +142,7 @@ function EditSheet({ prospect, onClose, onSave }: {
 }
 
 export default function ProspectsScreen() {
-  const { byStage, upsertProspect } = useProspects()
+  const { prospects, byStage, upsertProspect } = useProspects()
   const [editing, setEditing] = useState<Partial<Prospect> | null>(null)
 
   return (
@@ -153,6 +153,10 @@ export default function ProspectsScreen() {
           + New
         </button>
       </div>
+
+      {prospects.length === 0 && (
+        <p className="text-center text-sm text-ink-dim">No prospects yet. Add the first one you're chasing.</p>
+      )}
 
       {byStage.map(
         ({ stage, items }) =>
